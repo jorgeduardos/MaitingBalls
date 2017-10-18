@@ -2,7 +2,7 @@ var balls = [];
 
 function setup (){
 	createCanvas(500, 500);
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < 3; i++) {
 		balls[i] = new Ball;
 	}
 }
@@ -13,23 +13,24 @@ function draw(){
 		balls[i].display(i);
 		balls[i].move();
 		balls[i].bounce();
-		balls[i].reproduce(balls[i]);
+		balls[i].reproduce(balls);
 	}
 
 }
 
 function mousePressed(){
-	noLoop();
+
 }
 
 function Ball(){
 	this.id = 0;
-	this.size = 60;
+	this.size = 55;
 	this.x = random(50,450);
 	this.y = random(50,450);
 	this.velX = random (-13,10);
 	this.velY = random(-13,10);
-
+	toReproduce = true;
+	reproduced = false;
 	this.display = function(id){
 		// rectMode(CENTER);
 		ellipse(this.x, this.y, this.size, this.size);
@@ -50,11 +51,28 @@ function Ball(){
 			this.velX = this.velX * -1;
 		}
 	}
-	this.reproduce = function(ball){
-		for (var i = 0; i < balls.length; i++) {
-			if(ball.id != balls[i].id && ball.x == balls[i].x && ball.y == balls[i].y){
-				balls.push(new Ball);
+	this.reproduce = function(objArray){
+		for(i=0;i<objArray.length;i++){
+			if(this.id != i){ //dont do the check if it is looking at itself
+				this.toReproduce = collideCircleCircle(this.x, this.y, this.size, objArray[i].x, objArray[i].y, objArray[i].size); //colliding with anything?
+				if(this.toReproduce == true){ // if we ever get a true we have to try again, this works since we iterate down through the objects one by one.
+					if(!this.reproduced || !objArray[i].reproduced){
+						console.log("reproducing!")
+						balls.push(new Ball);
+						this.reproduced = true;
+						objArray.reproduced =true;
+					}
+				}	
+			
 			}
 		}
 	}
 }
+
+
+function collideCircleCircle(x, y,d, x2, y2, d2) {
+  if( this.dist(x,y,x2,y2) <= (d/2)+(d2/2) ){
+    return true;
+  }
+  return false;
+};
