@@ -2,7 +2,7 @@ var balls = [];
 
 function setup (){
 	createCanvas(500, 500);
-	for (var i = 0; i < 3; i++) {
+	for (var i = 0; i < 9; i++) {
 		balls[i] = new Ball;
 	}
 }
@@ -11,28 +11,37 @@ function draw(){
 	background(0);
 	for (var i = 0; i < balls.length; i++) {
 		balls[i].display(i);
+		balls[i].reproduce(balls);
 		balls[i].move();
 		balls[i].bounce();
-		balls[i].reproduce(balls);
+		balls[i].lifespan(i);
 	}
 
 }
 
 function mousePressed(){
-
+	noLoop();
 }
 
 function Ball(){
 	this.id = 0;
-	this.size = 55;
+	this.size = 15;
+	//colors 
+	this.r = random(0,255);
+	this.g = random(0,255);
+	this.b = random(0,255);
+
 	this.x = random(50,450);
 	this.y = random(50,450);
-	this.velX = random (-13,10);
-	this.velY = random(-13,10);
-	toReproduce = true;
-	reproduced = false;
+	this.velX = random (-5,5);
+	this.velY = random(-5,5);
+	this.toReproduce = true;
+	this.reproduced = false;
+	this.age = 0;
+
 	this.display = function(id){
 		// rectMode(CENTER);
+		fill(this.r, this.g, this.b);
 		ellipse(this.x, this.y, this.size, this.size);
 		this.id = id;
 	}
@@ -60,11 +69,18 @@ function Ball(){
 						console.log("reproducing!")
 						balls.push(new Ball);
 						this.reproduced = true;
-						objArray.reproduced =true;
+						objArray[i].reproduced = true;
 					}
 				}	
 			
 			}
+		}
+	}
+	this.lifespan = function(i){
+		if(this.age == 200){
+			balls.splice(i, 1);
+		}else{
+			this.age++;
 		}
 	}
 }
