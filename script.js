@@ -2,10 +2,9 @@ var balls = [];
 
 function setup (){
 	createCanvas(1200, 700);
-	for (var i = 0; i < 400; i++) {
-		balls[i] = new Ball(random(50,1150), random(50, 650), random (-5,5), random(-5,5), 8);
-	}
-	console.log(balls);
+	// for (var i = 0; i < 800; i++) {
+	// 	balls[i] = new Ball(random(50,1150), random(50, 650), random (-5,5), random(-5,5), 3);
+	// }
 }
 
 function draw(){
@@ -24,8 +23,11 @@ function draw(){
 }
 
 function mousePressed(){
-	// balls.push(new Ball);
-	noLoop();
+	var lasSize = 100;
+	for (var i = 0; i < 10; i++) {
+		balls.push(new Ball(mouseX+Math.ceil(random(lasSize*-1,lasSize)), mouseY+Math.ceil(random(lasSize*-1,lasSize)), random (-10,10), random(-10,10), 10));
+	}
+	// noLoop();
 }
 
 function Ball(posX, posY, velX, velY, size){
@@ -122,8 +124,8 @@ function resetFussion(){
 		 var lastPosY = balls[0].y;
 		 var lasSize = balls[0].size/2;
 		balls.splice(0, 1);
-		for (var i = 0; i < 500; i++) {
-			balls[i] = new Ball(lastPosx+Math.ceil(random(lasSize*-1,lasSize)), lastPosY+Math.ceil(random(lasSize*-1,lasSize)), random (-5,5), random(-5,5), 5);
+		for (var i = 0; i < 800; i++) {
+			balls[i] = new Ball(lastPosx+Math.ceil(random(lasSize*-1,lasSize)), lastPosY+Math.ceil(random(lasSize*-1,lasSize)), random (-10,10), random(-10,10), 3);
 		}
 		console.log(balls);
 	}
