@@ -2,9 +2,9 @@ var balls = [];
 
 function setup (){
 	createCanvas(1200, 700);
-	// for (var i = 0; i < 800; i++) {
-	// 	balls[i] = new Ball(random(50,1150), random(50, 650), random (-5,5), random(-5,5), 3);
-	// }
+	for (var i = 0; i < 700; i++) {
+		balls[i] = new Ball(random(50,1150), random(50, 650), random (-5,5), random(-5,5), random(3,10));
+	}
 }
 
 function draw(){
@@ -15,9 +15,7 @@ function draw(){
 		balls[i].display(i);
 		balls[i].move();
 		balls[i].bounce();
-		// balls[i].reproduce(balls);
 		balls[i].fussion(balls, i);
-		// balls[i].lifespan(i);
 	}
 	checker();
 }
@@ -124,8 +122,11 @@ function resetFussion(){
 		 var lastPosY = balls[0].y;
 		 var lasSize = balls[0].size/2;
 		balls.splice(0, 1);
-		for (var i = 0; i < 800; i++) {
-			balls[i] = new Ball(lastPosx+Math.ceil(random(lasSize*-1,lasSize)), lastPosY+Math.ceil(random(lasSize*-1,lasSize)), random (-10,10), random(-10,10), 3);
+		for (var i = 0; i < 600; i++) {
+      var angle = Math.random()*PI*2;
+      var x = Math.cos(angle)*random(lasSize);
+      var y = Math.sin(angle)*random(lasSize);
+			balls[i] = new Ball(lastPosx+x, lastPosY+y, random (-10,10), random(-10,10), 3);
 		}
 		console.log(balls);
 	}
